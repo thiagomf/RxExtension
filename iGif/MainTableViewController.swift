@@ -28,18 +28,18 @@ class MainTableViewController: UITableViewController {
     tableView.tableHeaderView = searchController.searchBar
     
     search.filter { $0.count >= 3 }
-      .throttle(0.3, scheduler: MainScheduler.instance)
-      .distinctUntilChanged()
-      .flatMapLatest { query -> Observable<[JSON]> in
-        return ApiController.shared.search(text: query)
-          .catchErrorJustReturn([])
-      }
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { result in
+        .throttle(0.3, scheduler: MainScheduler.instance)
+        .distinctUntilChanged()
+        .flatMapLatest { query -> Observable<[JSON]> in
+            return ApiController.shared.search(text: query)
+                .catchErrorJustReturn([])
+    }
+    .observeOn(MainScheduler.instance)
+    .subscribe(onNext: { result in
         self.gifs = result
         self.tableView.reloadData()
-      })
-      .disposed(by:bag)
+    })
+        .disposed(by:bag)
   }
   
   // MARK: - Table view data source
