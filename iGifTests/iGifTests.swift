@@ -34,30 +34,62 @@ class iGifTests: XCTestCase {
   
   let obj = ["array":["foo","bar"], "foo":"bar"] as [String : Any]
   let request = URLRequest(url: URL(string: "http://raywenderlich.com")!)
+
   let errorRequest = URLRequest(url: URL(string: "http://rw.com")!)
   
-  override func setUp() {
-    super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-    stub(condition: isHost("raywenderlich.com")) { _ in
-      return OHHTTPStubsResponse(jsonObject: self.obj, statusCode: 200, headers: nil)
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+        stub(condition: isHost("raywenderlich.com")) { _ in
+            return HTTPStubsResponse(jsonObject: self.obj, statusCode: 200, headers: nil)
+        }
+        stub(condition: isHost("rw.com")) { _ in
+            return HTTPStubsResponse(error: RxURLSessionError.unknown)
+        }
     }
-    stub(condition: isHost("rw.com")) { _ in
-      return OHHTTPStubsResponse(error: RxURLSessionError.unknown)
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+        HTTPStubs.removeAllStubs()
     }
-  }
-  
-  override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    super.tearDown()
-    OHHTTPStubs.removeAllStubs()
-  }
-  
-  
+    
+    func testData() {
+        let observable = URLSession.shared.rx.data(request: self.request)
+        expect(observable.toBlocking().firstOrNil()).toNot(beNil())
+    }
+    
+    func testString() {
+        let observable = URLSession.shared.rx.string(request: self.request)
+        let result = observable.toBlocking().firstOrNil() ?? ""
+        let option1 = "{\"array\":[\"foo\",\"bar\"],\"foo\":\"bar\"}"
+        let option2 = "{\"foo\":\"bar\",\"array\":[\"foo\",\"bar\"]}"
+        expect(result == option1 || result == option2).to(beTrue())
+    }
+    
+    func testGifResponse() {
+//        let observable = URLSession.shared.rx.decodable(request: request, type: GifResponse.self)
+//        let obj = self.obj
+//        let result = observable.toBlocking().firstOrNil()
+//        expect(result as? [String: AnyHashable]) == obj
+    }
+    
+    func testError() {
+//        var erroredCorrectly = false
+//        let observable = URLSession.shared.rx.json(request: self.errorRequest) do {
+//            _ = try observable.toBlocking().first()
+//            assertionFailure()
+//        } catch RxURLSessionError.unknown {
+//            erroredCorrectly = true
+//        } catch {
+//            assertionFailure()
+//        }
+//        expect(erroredCorrectly) == true
+    }
 }
 
 extension BlockingObservable {
-  func firstOrNil() -> E? {
+  func firstOrNil() -> Element? {
     do {
       return try first()
     } catch {
