@@ -62,6 +62,12 @@ extension Reactive where Base: URLSession {
     }
     
     func data(request: URLRequest) -> Observable<Data> {
+        
+        if let url = request.url?.absoluteString,
+            let data = internalCache[url] {
+            return Observable.just(data)
+        }
+        
         return response(request: request).cache().map { response, data -> Data in
             guard 200 ..< 300 ~= response.statusCode else {
                 throw RxURLSessionError.requestFailed(response: response, data: data)
@@ -100,6 +106,7 @@ extension ObservableType where Element == (HTTPURLResponse, Data) {
                 200 ..< 300 ~= response.statusCode else { return }
             internalCache[url] = data
         })
+        
     }
     
 }

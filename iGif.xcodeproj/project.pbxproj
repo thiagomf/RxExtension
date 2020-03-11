@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8DE83A3C9148FD21C4175CB5 /* Pods_iGif.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AB4EB3510D1AC7F244E619 /* Pods_iGif.framework */; };
+		A54DDF2924192CC1004CCB4E /* GifResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A54DDF2824192CC1004CCB4E /* GifResponse.swift */; };
 		A856242FEC917A97140E3963 /* Pods_iGifTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6483AE2D6A7E860FF17059 /* Pods_iGifTests.framework */; };
 		CB8945F61E41C9B600F46229 /* GifTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8945F51E41C9B600F46229 /* GifTableViewCell.swift */; };
 		CB8945F81E424A5500F46229 /* MainTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8945F71E424A5500F46229 /* MainTableViewController.swift */; };
@@ -36,6 +37,7 @@
 		7C6483AE2D6A7E860FF17059 /* Pods_iGifTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iGifTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94232E35A0FCE914CAE234CA /* Pods-iGif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iGif.release.xcconfig"; path = "Pods/Target Support Files/Pods-iGif/Pods-iGif.release.xcconfig"; sourceTree = "<group>"; };
 		A2D74F82B495E1D08DC891F6 /* Pods-iGifTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iGifTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iGifTests/Pods-iGifTests.release.xcconfig"; sourceTree = "<group>"; };
+		A54DDF2824192CC1004CCB4E /* GifResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifResponse.swift; sourceTree = "<group>"; };
 		B6BCC400E7EEDAD0B6E8836C /* Pods-iGif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iGif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iGif/Pods-iGif.debug.xcconfig"; sourceTree = "<group>"; };
 		CB8945F51E41C9B600F46229 /* GifTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GifTableViewCell.swift; sourceTree = "<group>"; };
 		CB8945F71E424A5500F46229 /* MainTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTableViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				CBB17E0F1E41227B0016EBA9 /* Assets.xcassets */,
 				CBB17E111E41227B0016EBA9 /* LaunchScreen.storyboard */,
 				CBB17E141E41227B0016EBA9 /* Info.plist */,
+				A54DDF2824192CC1004CCB4E /* GifResponse.swift */,
 			);
 			path = iGif;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBB17E311E41B8AF0016EBA9 /* ApiController.swift in Sources */,
+				A54DDF2924192CC1004CCB4E /* GifResponse.swift in Sources */,
 				CB8945F61E41C9B600F46229 /* GifTableViewCell.swift in Sources */,
 				CBB17E2F1E41B8790016EBA9 /* URLSession+Rx.swift in Sources */,
 				CB8945F81E424A5500F46229 /* MainTableViewController.swift in Sources */,

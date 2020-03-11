@@ -14,7 +14,7 @@ class MainTableViewController: UITableViewController {
   
   let searchController = UISearchController(searchResultsController: nil)
   let bag = DisposeBag()
-  var gifs = [JSON]()
+  var gifs = [Datum]()
   let search = BehaviorSubject(value: "")
   
   override func viewDidLoad() {
@@ -30,7 +30,7 @@ class MainTableViewController: UITableViewController {
     search.filter { $0.count >= 3 }
         .throttle(0.3, scheduler: MainScheduler.instance)
         .distinctUntilChanged()
-        .flatMapLatest { query -> Observable<[JSON]> in
+        .flatMapLatest { query -> Observable<[Datum]> in
             return ApiController.shared.search(text: query)
                 .catchErrorJustReturn([])
     }
@@ -56,9 +56,10 @@ class MainTableViewController: UITableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "GifCell", for: indexPath) as! GifTableViewCell
   
     let gif = gifs[indexPath.row]
-    if let url = gif["images"]["fixed_height"]["url"].string {
-      cell.downloadAndDisplay(gif: url)
-    }
+    
+    let url = gif.images.fixedHeight.url
+    
+    cell.downloadAndDisplay(gif: url)
     
     return cell
   }
