@@ -1,11 +1,3 @@
-//
-//  MainTableViewController.swift
-//  iGif
-//
-//  Created by Junior B. on 01.02.17.
-//  Copyright © 2017 Razeware LLC. All rights reserved.
-//
-
 import UIKit
 import RxSwift
 import SwiftyJSON
@@ -14,7 +6,7 @@ class MainTableViewController: UITableViewController {
   
   let searchController = UISearchController(searchResultsController: nil)
   let bag = DisposeBag()
-  var gifs = [Datum]()
+  var gifs = [JSON]()
   let search = BehaviorSubject(value: "")
   
   override func viewDidLoad() {
@@ -28,18 +20,18 @@ class MainTableViewController: UITableViewController {
     tableView.tableHeaderView = searchController.searchBar
     
     search.filter { $0.count >= 3 }
-        .throttle(0.3, scheduler: MainScheduler.instance)
-        .distinctUntilChanged()
-        .flatMapLatest { query -> Observable<[Datum]> in
-            return ApiController.shared.search(text: query)
-                .catchErrorJustReturn([])
-    }
-    .observeOn(MainScheduler.instance)
-    .subscribe(onNext: { result in
+      .throttle(0.3, scheduler: MainScheduler.instance)
+      .distinctUntilChanged()
+      .flatMapLatest { query -> Observable<[JSON]> in
+        return ApiController.shared.search(text: query)
+          .catchErrorJustReturn([])
+      }
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { result in
         self.gifs = result
         self.tableView.reloadData()
-    })
-        .disposed(by:bag)
+      })
+      .disposed(by:bag)
   }
   
   // MARK: - Table view data source
@@ -56,10 +48,9 @@ class MainTableViewController: UITableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: "GifCell", for: indexPath) as! GifTableViewCell
   
     let gif = gifs[indexPath.row]
-    
-    let url = gif.images.fixedHeight.url
-    
-    cell.downloadAndDisplay(gif: url)
+    if let url = gif["images"]["fixed_height"]["url"].string {
+      cell.downloadAndDisplay(gif: url)
+    }
     
     return cell
   }

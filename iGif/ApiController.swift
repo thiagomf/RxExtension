@@ -3,12 +3,12 @@ import RxSwift
 import SwiftyJSON
 
 class ApiController {
-    
-    static let shared = ApiController()
-    
-    private let apiKey = "k6a7bXvvCHiy3cP4Yq9YAtWUTEVLX2tN"
-    
-    func search(text: String) -> Observable<[Datum]> {
+  
+  static let shared = ApiController()
+  
+  private let apiKey = "k6a7bXvvCHiy3cP4Yq9YAtWUTEVLX2tN"
+  
+    func search(text: String) -> Observable<[JSON]> {
         let url = URL(string: "http://api.giphy.com/v1/gifs/search")!
         var request = URLRequest(url: url)
         let keyQueryItem = URLQueryItem(name: "api_key", value: apiKey)
@@ -22,8 +22,8 @@ class ApiController {
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        return URLSession.shared.rx
-                .decodable(request: request, type: GifResponse.self)
-                .map { $0.data }
+        return URLSession.shared.rx.json(request: request).map() { json in
+            return json["data"].array ?? []
+        }
     }
 }
